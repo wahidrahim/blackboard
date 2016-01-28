@@ -1,0 +1,14 @@
+{
+  "name": "socket.io-blackboard",
+  "version": "1.0.0",
+  "description": "a collaborative drawing application",
+  "main": "app.js",
+  "author": "Wahid Rahim",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "jade": "^1.11.0",
+    "morgan": "^1.6.1",
+    "stylus": "^0.53.0"
+  }
+}
