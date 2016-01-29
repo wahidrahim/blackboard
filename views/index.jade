@@ -2,5 +2,27 @@ doctype html
 html
   head
     meta(charset='utf-8')
+    link(rel='stylesheet' href='styles.css')
   body
     p users connected: #[span#connected]
+    #container
+      #canvas-container
+        canvas#canvas
+      #messages-container
+        ul#messages
+          li test
+    #controls
+      | color:
+      input#color.jscolor(class='{hash:true}' value='#F0F0F0')
+      | width:
+      input#width(type='range' value='5' min='1' max='50' name='width')
+      input#widthField
+    #messageForm
+      form
+        input#message(placeholder='send message')
+        input#submit(type='submit' value='send')
+
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js')
+    script(src='http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js')
+    script(src='jscolor.min.js')
+    script(src='blackboard.js')
