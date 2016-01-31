@@ -1,17 +1,17 @@
 var canvas = new fabric.Canvas('canvas', {
-  //backgroundImage: 'chalkboard.png',
   backgroundColor: '#222',
   width: 1152,
   height: 720,
   isDrawingMode: true,
 });
 
-//canvas.freeDrawingBrush.color = $('#color').val();
-//canvas.freeDrawingBrush.width = 5;
+
 
 $('#color').change(function(e) {
   canvas.freeDrawingBrush.color = $('#color').val();
-  //canvas.freeDrawingBrush.color = 'rgba(255, 255, 255, 0.5)';
+  $('#brush-style').css({
+    'background': canvas.freeDrawingBrush.color
+  });
 });
 
 $('#width').on('input', function(e) {
@@ -19,7 +19,13 @@ $('#width').on('input', function(e) {
 
   canvas.freeDrawingBrush.width = val;
   $('#widthField').val(val);
+  $('#brush-style').css({
+    'height': canvas.freeDrawingBrush.width,
+    'width': canvas.freeDrawingBrush.width
+  });
 })
+
+$('#brush-style').css({'border-radius': '100%'});
 
 $('#color').change();
 $('#width').trigger('input');
