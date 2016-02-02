@@ -9,13 +9,14 @@ html
     #canvas-container
       canvas#canvas
 
-        #controls
+    #controls
       | color:
       input#color.jscolor(class='{hash:true}' value='#F0F0F0')
       | width:
       input#width(type='range' value='5' min='1' max='50' name='width')
       input#widthField
       #brush-style
+      button#undo undo
 
     #messageForm
       form

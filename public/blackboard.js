@@ -5,7 +5,19 @@ var canvas = new fabric.Canvas('canvas', {
   isDrawingMode: true,
 });
 
+// initial blank canvas state
+var states = [canvas.toJSON()];
 
+canvas.on('path:created', function(e) {
+  states.push(canvas.toJSON());
+})
+
+$('#undo').click(function(e) {
+  if (states.length > 1) {
+    states.pop();
+    canvas.loadFromJSON(states[states.length - 1]);
+  }
+})
 
 $('#color').change(function(e) {
   canvas.freeDrawingBrush.color = $('#color').val();
