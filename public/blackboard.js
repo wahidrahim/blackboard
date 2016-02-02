@@ -1,3 +1,5 @@
+var socket = io();
+
 var canvas = new fabric.Canvas('canvas', {
   backgroundColor: '#222',
   width: 1152,
