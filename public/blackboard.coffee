@@ -1,4 +1,4 @@
-socket = io()
+socket = io({forceNew: false})
 canvas = new fabric.Canvas 'canvas',
   backgroundColor: '#222'
   width: 1152
@@ -15,6 +15,7 @@ canvas.on 'path:created', (e) ->
 
 $('#undo').click (e) ->
   if !actions.length then return
+
   canvas.remove actions.last()
   socket.emit 'remove path', actions.last().toJSON()
   actions.pop()
