@@ -1,5 +1,6 @@
-socket.on 'connected users', (num_users) ->
-  $('#connected').text(num_users)
+socket.on 'load state', (data) ->
+  $('#connected').text(data.num_users)
+  canvas.loadFromJSON data.canvas
 
 socket.on 'user connected', (data) ->
   $('#connected').text(data.total)
@@ -10,8 +11,6 @@ socket.on 'user disconnected', (data) ->
   # add new user div
 
 socket.on 'add path', (json_path) ->
-  # TODO MAKE FULLY ACCURATE 
-  # parse and make sure all values are accurate
   svg_d = json_path.path.toString().split(',').join(' ')
   p = new fabric.Path svg_d,
     stroke: json_path.stroke
@@ -23,5 +22,4 @@ socket.on 'add path', (json_path) ->
       x: json_path.pathOffset.x
       y: json_path.pathOffset.y
 
-  console.log p.toSVG() # compare -- 'transform' values are not the exact same
   canvas.add p

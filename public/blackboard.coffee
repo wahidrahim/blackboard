@@ -5,13 +5,17 @@ canvas = new fabric.Canvas 'canvas',
   height: 720
   isDrawingMode: true
 
-# user draws something
+actions = []
+actions.last = () -> return this[this.length - 1]
+
 canvas.on 'path:created', (e) ->
-  console.log e.path.toSVG()
+  actions.push e.path
   socket.emit 'add path', e.path.toJSON()
+  socket.emit 'save canvas', canvas.toJSON()
 
 $('#undo').click (e) ->
-  # TODO
+  canvas.remove actions.last()
+  actions.pop()
 
 $('#color').change (e) ->
   val = $('#color').val()

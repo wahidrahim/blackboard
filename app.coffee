@@ -19,24 +19,29 @@ io.listen app.listen app.get('port'), ->
   console.log 'app is listening on http://localhost:' + app.get('port')
 
 users = []
+canvas_state = undefined
 
 io.on 'connect', (socket) ->
   users.push socket.id
 
-  socket.emit 'connected users', users.length
+  # load current state for connected user
+  socket.emit 'current state',
+    num_users: users.length
+    canvas: canvas_state
+
+  # notify other users
   socket.broadcast.emit 'user connected',
     total: users.length
     id: socket.id
+
+  socket.on 'add path', (path) ->
+    socket.broadcast.emit 'add path', path
+
+  socket.on 'save canvas', (canvas) ->
+    canvas_state = canvas
 
   socket.on 'disconnect', ->
     users.splice users.indexOf(socket.id), 1
     socket.broadcast.emit 'user disconnected',
       total: users.length
       id: socket.id
-
-  socket.on 'update canvas', (canvas_state) ->
-    socket.broadcast.emit 'update canvas', canvas_state
-
-  socket.on 'add path', (path) ->
-    console.log path
-    socket.broadcast.emit 'add path', path
