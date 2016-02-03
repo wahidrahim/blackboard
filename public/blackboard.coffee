@@ -14,7 +14,9 @@ canvas.on 'path:created', (e) ->
   socket.emit 'save canvas', canvas.toJSON()
 
 $('#undo').click (e) ->
+  if !actions.length then return
   canvas.remove actions.last()
+  socket.emit 'remove path', actions.last().toJSON()
   actions.pop()
 
 $('#color').change (e) ->

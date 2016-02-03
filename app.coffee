@@ -25,9 +25,9 @@ io.on 'connect', (socket) ->
   users.push socket.id
 
   # load current state for connected user
-  socket.emit 'current state',
+  socket.emit 'load state',
     num_users: users.length
-    canvas: canvas_state
+    canvas_state: canvas_state
 
   # notify other users
   socket.broadcast.emit 'user connected',
@@ -36,6 +36,9 @@ io.on 'connect', (socket) ->
 
   socket.on 'add path', (path) ->
     socket.broadcast.emit 'add path', path
+
+  socket.on 'remove path', (path) ->
+    socket.broadcast.emit 'remove path', path
 
   socket.on 'save canvas', (canvas) ->
     canvas_state = canvas

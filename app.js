@@ -37,9 +37,9 @@ canvas_state = void 0;
 
 io.on('connect', function(socket) {
   users.push(socket.id);
-  socket.emit('current state', {
+  socket.emit('load state', {
     num_users: users.length,
-    canvas: canvas_state
+    canvas_state: canvas_state
   });
   socket.broadcast.emit('user connected', {
     total: users.length,
@@ -47,6 +47,9 @@ io.on('connect', function(socket) {
   });
   socket.on('add path', function(path) {
     return socket.broadcast.emit('add path', path);
+  });
+  socket.on('remove path', function(path) {
+    return socket.broadcast.emit('remove path', path);
   });
   socket.on('save canvas', function(canvas) {
     return canvas_state = canvas;

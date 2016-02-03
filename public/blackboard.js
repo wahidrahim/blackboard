@@ -23,7 +23,11 @@ canvas.on('path:created', function(e) {
 });
 
 $('#undo').click(function(e) {
+  if (!actions.length) {
+    return;
+  }
   canvas.remove(actions.last());
+  socket.emit('remove path', actions.last().toJSON());
   return actions.pop();
 });
 
