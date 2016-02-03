@@ -25,6 +25,15 @@ canvas.on('path:created', function(e) {
   return socket.emit('save actions', actions);
 });
 
+$('.upper-canvas').mousemove(function(e) {
+  return socket.emit('user move', {
+    x: e.pageX,
+    y: e.pageY,
+    size: $('#width').val(),
+    color: $('#color').val()
+  });
+});
+
 $('#undo').click(function(e) {
   if (!actions.length) {
     return;

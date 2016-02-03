@@ -14,6 +14,13 @@ canvas.on 'path:created', (e) ->
   socket.emit 'save canvas', canvas.toJSON()
   socket.emit 'save actions', actions
 
+$('.upper-canvas').mousemove (e) ->
+  socket.emit 'user move',
+    x: e.pageX
+    y: e.pageY
+    size: $('#width').val()
+    color: $('#color').val()
+
 $('#undo').click (e) ->
   if !actions.length then return
 

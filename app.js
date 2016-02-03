@@ -39,14 +39,19 @@ canvas_state = void 0;
 
 io.on('connect', function(socket) {
   console.log('connection');
-  users.push(socket.id);
+  users.push(socket.id.substr(2));
   socket.emit('load canvas', {
     num_users: users.length,
-    canvas_state: canvas_state
+    canvas_state: canvas_state,
+    users: users
   });
   socket.broadcast.emit('user connected', {
     num_users: users.length,
-    id: socket.id
+    id: socket.id.substr(2)
+  });
+  socket.on('user move', function(pos) {
+    pos.id = socket.id.substr(2);
+    return socket.broadcast.emit('user move', pos);
   });
   socket.on('add path', function(path) {
     return socket.broadcast.emit('add path', path);
@@ -66,7 +71,7 @@ io.on('connect', function(socket) {
     users.splice(users.indexOf(socket.id), 1);
     socket.broadcast.emit('user disconnected', {
       num_users: users.length,
-      id: socket.id,
+      id: socket.id.substr(2),
       actions: user_actions[socket.id]
     });
     if (users.length === 0) {

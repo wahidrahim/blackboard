@@ -1,10 +1,22 @@
 socket.on 'load canvas', (data) ->
   $('#connected').text(data.num_users)
   canvas.loadFromJSON data.canvas_state
+  data.users.map (id) ->
+    appendUserDiv(id)
 
 socket.on 'user connected', (data) ->
   $('#connected').text(data.num_users)
-  # add new user div
+  appendUserDiv(data.id)
+
+socket.on 'user move', (data) ->
+  $('#' + data.id).css
+    visibility: 'visible'
+    position: 'absolute'
+    left: data.x
+    top: data.y
+    width: data.size
+    height: data.size
+    background: data.color
 
 socket.on 'user disconnected', (data) ->
   $('#connected').text(data.num_users)
@@ -14,13 +26,18 @@ socket.on 'user disconnected', (data) ->
       removePath(p)
     socket.emit 'save canvas', canvas.toJSON()
 
-  # remove new user div
+  console.log data.id
+  $('#' + data.id).remove()
 
 socket.on 'add path', (json_path) ->
   canvas.add makePath(json_path)
 
 socket.on 'remove path', (json_path) ->
-  removePath(makePath(json_path));
+  removePath(makePath(json_path))
+
+appendUserDiv = (id) ->
+  $('<div>', {id: id, class: 'user'}).appendTo('body')
+
 
 makePath = (json_path) ->
   svg_d = json_path.path.toString().split(',').join(' ')
