@@ -1,7 +1,3 @@
-.anuser {
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  background: #f00;
-  border: 1px solid #000;
+#brush-style {
+  border-radius: 100%;
 }
