@@ -40,11 +40,18 @@ io.on('connect', function(socket) {
     total: users.length,
     id: socket.id
   });
-  return socket.on('disconnect', function() {
+  socket.on('disconnect', function() {
     users.splice(users.indexOf(socket.id), 1);
     return socket.broadcast.emit('user disconnected', {
       total: users.length,
       id: socket.id
     });
+  });
+  socket.on('update canvas', function(canvas_state) {
+    return socket.broadcast.emit('update canvas', canvas_state);
+  });
+  return socket.on('add path', function(path) {
+    console.log(path);
+    return socket.broadcast.emit('add path', path);
   });
 });

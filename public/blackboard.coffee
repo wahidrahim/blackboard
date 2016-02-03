@@ -1,19 +1,17 @@
+socket = io()
 canvas = new fabric.Canvas 'canvas',
   backgroundColor: '#222'
   width: 1152
   height: 720
   isDrawingMode: true
 
-# initial blank canvas state
-states = [canvas.toJSON()]
-
+# user draws something
 canvas.on 'path:created', (e) ->
-  states.push canvas.toJSON()
+  console.log e.path.toSVG()
+  socket.emit 'add path', e.path.toJSON()
 
 $('#undo').click (e) ->
-  if states.length > 1
-    states.pop()
-    canvas.loadFromJSON states[states.length - 1]
+  # TODO
 
 $('#color').change (e) ->
   val = $('#color').val()

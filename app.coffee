@@ -33,3 +33,10 @@ io.on 'connect', (socket) ->
     socket.broadcast.emit 'user disconnected',
       total: users.length
       id: socket.id
+
+  socket.on 'update canvas', (canvas_state) ->
+    socket.broadcast.emit 'update canvas', canvas_state
+
+  socket.on 'add path', (path) ->
+    console.log path
+    socket.broadcast.emit 'add path', path
