@@ -21,7 +21,8 @@ actions.last = function() {
 canvas.on('path:created', function(e) {
   actions.push(e.path);
   socket.emit('add path', e.path.toJSON());
-  return socket.emit('save canvas', canvas.toJSON());
+  socket.emit('save canvas', canvas.toJSON());
+  return socket.emit('save actions', actions);
 });
 
 $('#undo').click(function(e) {

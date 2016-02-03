@@ -1,29 +1,26 @@
 socket.on 'load canvas', (data) ->
-  console.log data
   $('#connected').text(data.num_users)
   canvas.loadFromJSON data.canvas_state
 
 socket.on 'user connected', (data) ->
-  $('#connected').text(data.total)
+  $('#connected').text(data.num_users)
   # add new user div
 
 socket.on 'user disconnected', (data) ->
-  $('#connected').text(data.total)
+  $('#connected').text(data.num_users)
+
+  if data.actions
+    data.actions.map (p) ->
+      removePath(p)
+    socket.emit 'save canvas', canvas.toJSON()
+
   # remove new user div
 
 socket.on 'add path', (json_path) ->
-  p = makePath(json_path)
-  canvas.add p
+  canvas.add makePath(json_path)
 
 socket.on 'remove path', (json_path) ->
-  p = makePath(json_path)
-
-  canvas.forEachObject (obj) ->
-    obj_path = obj.path.toString()
-    p_path = p.path.toString()
-
-    if obj_path == p_path
-      obj.remove()
+  removePath(makePath(json_path));
 
 makePath = (json_path) ->
   svg_d = json_path.path.toString().split(',').join(' ')
@@ -38,3 +35,11 @@ makePath = (json_path) ->
       y: json_path.pathOffset.y
 
   return path
+
+removePath = (p) ->
+  canvas.forEachObject (o) ->
+    o_path = o.path.toString()
+    p_path = p.path.toString()
+
+    if o_path == p_path
+      o.remove()

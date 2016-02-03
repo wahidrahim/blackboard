@@ -32,27 +32,21 @@ io.on 'connect', (socket) ->
     num_users: users.length
     canvas_state: canvas_state
 
-  # notify other users
   socket.broadcast.emit 'user connected',
-    total: users.length
+    num_users: users.length
     id: socket.id
 
   socket.on 'add path', (path) ->
-    if !user_actions[socket.id]
-      user_actions[socket.id] = []
-
-    user_actions[socket.id].push path
     socket.broadcast.emit 'add path', path
 
   socket.on 'remove path', (path) ->
     socket.broadcast.emit 'remove path', path
 
-  socket.on 'clear actions', (actions) ->
-    socket.broadcast.emit 'clear actions', actions
-
   socket.on 'save canvas', (canvas) ->
     canvas_state = canvas
-    console.log canvas_state
+
+  socket.on 'save actions', (actions) ->
+    user_actions[socket.id] = actions
 
   socket.on 'disconnect', ->
     console.log 'disconnection'
@@ -60,6 +54,7 @@ io.on 'connect', (socket) ->
 
     users.splice users.indexOf(socket.id), 1
     socket.broadcast.emit 'user disconnected',
-      total: users.length
+      num_users: users.length
       id: socket.id
       actions: user_actions[socket.id]
+    if users.length == 0 then canvas_state = undefined

@@ -45,34 +45,32 @@ io.on('connect', function(socket) {
     canvas_state: canvas_state
   });
   socket.broadcast.emit('user connected', {
-    total: users.length,
+    num_users: users.length,
     id: socket.id
   });
   socket.on('add path', function(path) {
-    if (!user_actions[socket.id]) {
-      user_actions[socket.id] = [];
-    }
-    user_actions[socket.id].push(path);
     return socket.broadcast.emit('add path', path);
   });
   socket.on('remove path', function(path) {
     return socket.broadcast.emit('remove path', path);
   });
-  socket.on('clear actions', function(actions) {
-    return socket.broadcast.emit('clear actions', actions);
-  });
   socket.on('save canvas', function(canvas) {
-    canvas_state = canvas;
-    return console.log(canvas_state);
+    return canvas_state = canvas;
+  });
+  socket.on('save actions', function(actions) {
+    return user_actions[socket.id] = actions;
   });
   return socket.on('disconnect', function() {
     console.log('disconnection');
     console.log(user_actions[socket.id]);
     users.splice(users.indexOf(socket.id), 1);
-    return socket.broadcast.emit('user disconnected', {
-      total: users.length,
+    socket.broadcast.emit('user disconnected', {
+      num_users: users.length,
       id: socket.id,
       actions: user_actions[socket.id]
     });
+    if (users.length === 0) {
+      return canvas_state = void 0;
+    }
   });
 });

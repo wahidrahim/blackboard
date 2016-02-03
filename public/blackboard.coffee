@@ -12,6 +12,7 @@ canvas.on 'path:created', (e) ->
   actions.push e.path
   socket.emit 'add path', e.path.toJSON()
   socket.emit 'save canvas', canvas.toJSON()
+  socket.emit 'save actions', actions
 
 $('#undo').click (e) ->
   if !actions.length then return
