@@ -48,9 +48,11 @@ socket.on('remove path', function(json_path) {
 });
 
 socket.on('new message', function(data) {
-  var ml;
-  ml = $('<li>' + data.id + ': ' + data.message + '</li>');
-  return $('#messages').append(ml);
+  var text;
+  text = data.id + ': ' + data.message;
+  return $('#messages').append($('<li>', {
+    text: text
+  }));
 });
 
 removePath = function(p) {

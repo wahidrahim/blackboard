@@ -34,8 +34,8 @@ socket.on 'remove path', (json_path) ->
   removePath json_path
 
 socket.on 'new message', (data) ->
-  ml = $('<li>' + data.id + ': ' + data.message + '</li>')
-  $('#messages').append(ml)
+  text = data.id + ': ' + data.message
+  $('#messages').append $('<li>', text: text)
 
 removePath = (p) ->
   canvas.forEachObject (o) ->
