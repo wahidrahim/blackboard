@@ -1,5 +1,5 @@
 {
-  "name": "socket.io-blackboard",
+  "name": "blackboard",
   "version": "1.0.0",
   "description": "a collaborative drawing application",
   "main": "app.js",
