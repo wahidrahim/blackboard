@@ -55,10 +55,7 @@ socket.on('new message', function(data) {
 
 removePath = function(p) {
   return canvas.forEachObject(function(o) {
-    var o_path, p_path;
-    o_path = o.path.toString();
-    p_path = p.path.toString();
-    if (o_path === p_path) {
+    if (o.path.toString() === p.path.toString()) {
       return o.remove();
     }
   });

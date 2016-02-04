@@ -39,10 +39,8 @@ socket.on 'new message', (data) ->
 
 removePath = (p) ->
   canvas.forEachObject (o) ->
-    o_path = o.path.toString()
-    p_path = p.path.toString()
-
-    if o_path == p_path then o.remove()
+    if o.path.toString() == p.path.toString()
+      o.remove()
 
 appendUserDiv = (id) ->
   $('<div>', {id: id, class: 'user'}).appendTo('body')
