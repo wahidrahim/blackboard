@@ -53,6 +53,9 @@ io.on 'connect', (socket) ->
   socket.on 'save actions', (actions) ->
     user_actions[socket.id] = actions
 
+  socket.on 'message', (message) ->
+    io.emit 'new message', id: socket.id.substr(2), message: message
+
   socket.on 'disconnect', ->
     console.log 'disconnection'
     console.log user_actions[socket.id]

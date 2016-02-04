@@ -1,4 +1,4 @@
-socket = io({forceNew: false})
+socket = io()
 canvas = new fabric.Canvas 'canvas',
   backgroundColor: '#222'
   width: 1152
@@ -42,6 +42,12 @@ $('#width').on 'input', (e) ->
   $('#brush-style').css
     'height': val
     'width': val
+
+$('#messageForm').submit ->
+  message = $('#message').val()
+  $('#message').val('')
+  socket.send message
+  return false
 
 $('#color').change()
 $('#width').trigger 'input'

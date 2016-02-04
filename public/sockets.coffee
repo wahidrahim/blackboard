@@ -35,6 +35,10 @@ socket.on 'add path', (json_path) ->
 socket.on 'remove path', (json_path) ->
   removePath(makePath(json_path))
 
+socket.on 'new message', (data) ->
+  ml = $('<li>' + data.id + ': ' + data.message + '</li>')
+  $('#messages').append(ml)
+
 appendUserDiv = (id) ->
   $('<div>', {id: id, class: 'user'}).appendTo('body')
 

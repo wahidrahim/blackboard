@@ -65,6 +65,12 @@ io.on('connect', function(socket) {
   socket.on('save actions', function(actions) {
     return user_actions[socket.id] = actions;
   });
+  socket.on('message', function(message) {
+    return io.emit('new message', {
+      id: socket.id.substr(2),
+      message: message
+    });
+  });
   return socket.on('disconnect', function() {
     console.log('disconnection');
     console.log(user_actions[socket.id]);
