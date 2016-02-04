@@ -47,6 +47,7 @@ $('#messageForm').submit ->
   message = $('#message').val()
   $('#message').val('')
   socket.send message
+
   return false
 
 $('#color').change()

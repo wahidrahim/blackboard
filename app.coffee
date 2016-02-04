@@ -22,23 +22,22 @@ users = []
 user_actions = {}
 canvas_state = undefined
 
+getID = (socket) -> return socket.id.substr(2)
+
 io.on 'connect', (socket) ->
-  console.log 'connection'
+  users.push getID(socket)
 
-  users.push socket.id.substr(2)
-
-  # load current state for connected user
-  socket.emit 'load canvas',
+  socket.emit 'load state',
     num_users: users.length
     canvas_state: canvas_state
     users: users
 
   socket.broadcast.emit 'user connected',
     num_users: users.length
-    id: socket.id.substr(2)
+    id: getID(socket)
 
   socket.on 'user move', (pos) ->
-    pos.id = socket.id.substr(2)
+    pos.id = getID(socket)
     socket.broadcast.emit 'user move', pos
 
   socket.on 'add path', (path) ->
@@ -54,15 +53,12 @@ io.on 'connect', (socket) ->
     user_actions[socket.id] = actions
 
   socket.on 'message', (message) ->
-    io.emit 'new message', id: socket.id.substr(2), message: message
+    io.emit 'new message', id: getID(socket), message: message
 
   socket.on 'disconnect', ->
-    console.log 'disconnection'
-    console.log user_actions[socket.id]
-
-    users.splice users.indexOf(socket.id), 1
+    users.splice users.indexOf(getID(socket)), 1
     socket.broadcast.emit 'user disconnected',
       num_users: users.length
-      id: socket.id.substr(2)
+      id: getID(socket)
       actions: user_actions[socket.id]
     if users.length == 0 then canvas_state = undefined
