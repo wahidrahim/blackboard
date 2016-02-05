@@ -12,13 +12,16 @@ html
       canvas#canvas
 
     #controls
+      button#undo undo
+      button#color-button(class="jscolor {hash:true, valueElement:'color', styleElement:'brush'}") color
       | color:
-      input#color.jscolor(class='{hash:true}' value='#F0F0F0')
+      input#color
       | width:
       input#width(type='range' value='5' min='1' max='50' name='width')
       input#widthField
-      #brush-style
-      button#undo undo
+      #brush-preview
+        #brush-style
+          #brush
 
     #messageForm
       form
