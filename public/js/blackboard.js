@@ -5,7 +5,7 @@ socket = io();
 
 canvas = new fabric.Canvas('canvas', {
   backgroundColor: '#222',
-  width: 1152,
+  width: 1800,
   height: 720,
   isDrawingMode: true
 });
@@ -24,10 +24,12 @@ canvas.on('path:created', function(e) {
 });
 
 $('.upper-canvas').mousemove(function(e) {
+  var radius;
+  radius = $('#width').val();
   return socket.emit('user move', {
-    x: e.pageX,
-    y: e.pageY,
-    size: $('#width').val(),
+    x: e.pageX - (radius / 2),
+    y: e.pageY - (radius / 2),
+    size: radius,
     color: $('#color').val()
   });
 });
