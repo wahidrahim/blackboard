@@ -50,9 +50,10 @@ socket.on('remove path', function(json_path) {
 socket.on('new message', function(data) {
   var text;
   text = data.id + ': ' + data.message;
-  return $('#messages').append($('<li>', {
+  $('#messages').append($('<li>', {
     text: text
   }));
+  return $('#messages-container').scrollTop($('#messages-container').prop('scrollHeight'));
 });
 
 removePath = function(p) {

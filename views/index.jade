@@ -12,21 +12,23 @@ html
       canvas#canvas
 
     #controls
-      button#undo undo
-      button#color(class="jscolor {valueElement:'valueInut', styleElement:'brush-style'}") color
-      | width:
-      input#width(type='range' value='5' min='1' max='100' name='width')
-      #brush-preview
-        #brush-style
+      button#undo.button undo
+      button#color-button.button(href='#' class="jscolor {hash:true, valueElement:'color', styleElement:'brush'}") color
+      #inputs
+        input#color
+        input#width(type='range' value='5' min='1' max='100' name='width')
+        input#widthField
+      #brush-style
+        #brush
 
-    #messageForm
-      form
-        input#message(placeholder='send message')
-        input#submit(type='submit' value='send')
+    #chat
+      #messages-container
+        ul#messages
 
-    #messages-container
-      | messages:
-      ul#messages
+      #messageForm
+        form
+          //-input#submit(type='submit' value='send')
+          input#message(placeholder='send message')
 
     script(src='lib/jquery-1.12.0.min.js')
     script(src='lib/fabric.min.js')

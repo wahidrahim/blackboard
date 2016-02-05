@@ -6,7 +6,11 @@ canvas = new fabric.Canvas 'canvas',
   isDrawingMode: true
 
 actions = []
-actions.last = () -> return this[this.length - 1]
+actions.last = ->
+  this[this.length - 1]
+
+randomColor = ->
+  '#'+Math.floor(Math.random()*16777215).toString(16)
 
 canvas.on 'path:created', (e) ->
   actions.push e.path
@@ -31,19 +35,16 @@ $('#undo').click (e) ->
 
 $('#color').change (e) ->
   val = $('#color').val()
-
   canvas.freeDrawingBrush.color = val
-  $('#brush-style').css 'background': val
 
 $('#width').on 'input', (e) ->
   val = $('#width').val()
-
-  canvas.freeDrawingBrush.width = val
   $('#widthField').val val
-  $('#brush-style').css
+  $('#brush').css
     'height': val
     'width': val
-
+  canvas.freeDrawingBrush.width = val
+  
 $('#messageForm').submit ->
   message = $('#message').val()
   $('#message').val('')
@@ -51,5 +52,6 @@ $('#messageForm').submit ->
 
   return false
 
+$('#color').val(randomColor())
 $('#color').change()
 $('#width').trigger 'input'

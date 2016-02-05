@@ -36,6 +36,7 @@ socket.on 'remove path', (json_path) ->
 socket.on 'new message', (data) ->
   text = data.id + ': ' + data.message
   $('#messages').append $('<li>', text: text)
+  $('#messages-container').scrollTop($('#messages-container').prop('scrollHeight'))
 
 removePath = (p) ->
   canvas.forEachObject (o) ->
