@@ -50,7 +50,6 @@ $('#undo').click(function(e) {
 $('#color').change(function(e) {
   var val;
   val = $('#color').val();
-  console.log(val);
   return canvas.freeDrawingBrush.color = val;
 });
 

@@ -35,8 +35,6 @@ $('#undo').click (e) ->
 
 $('#color').change (e) ->
   val = $('#color').val()
-  #$('#brush').css 'background': val
-  console.log val
   canvas.freeDrawingBrush.color = val
 
 $('#width').on 'input', (e) ->
